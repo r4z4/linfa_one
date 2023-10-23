@@ -23,6 +23,13 @@ fn main() {
         [21.,   8.,     4.,     16.,     9.],
         [31.,   3.,     3.,     15.,     9.]
     );
+
+    let file = File::open("Test.csv").unwrap();
+    let mut reader = ReaderBuilder::new().has_headers(true).from_reader(file);
+    let array_read: Array2<u64> = reader.deserialize_array2((2, 5)).unwrap();
+
+    dbg!(array_read);
+
     let feature_names = vec!["ConsultLength", "Consultant", "ConsultLocation", "HourOfDay", "ConsultRating"];
     let num_features = original_data.len_of(Axis(1)) - 1;
     let features = original_data.slice(s![.., 0..num_features]).to_owned();
